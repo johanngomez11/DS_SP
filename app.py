@@ -2,8 +2,8 @@ import streamlit as st
 import pandas as pd
 import joblib
 
-# Cargar el modelo previamente entrenado
-model = joblib.load("best_wine_model.pkl")
+# Cargar el pipeline previamente entrenado
+pipeline = joblib.load("best_wine_model.pkl")
 
 # Definir los nombres de las columnas del dataset
 column_names = [
@@ -28,8 +28,11 @@ user_input = input_features()
 
 # Botón para realizar la predicción
 if st.button("Predecir"):
-    # Realizar la predicción usando el pipeline completo
-    prediction = model.predict(user_input)
+    try:
+        # Realizar la predicción usando el pipeline completo
+        prediction = pipeline.predict(user_input)
 
-    # Mostrar la predicción
-    st.success(f"La clase predicha es: {prediction[0]}")
+        # Mostrar la predicción
+        st.success(f"La clase predicha es: {prediction[0]}")
+    except Exception as e:
+        st.error(f"Ocurrió un error: {str(e)}")
